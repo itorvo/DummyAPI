@@ -1,0 +1,23 @@
+version: 0.2
+
+env:
+  variables:
+    AWS_ACCOUNT_ID: "NumberAccount"
+    REPO_NAME: "testapi"
+    IMAGE_TAG: "test"
+
+phases:
+  pre_build:
+    commands:
+      - echo Ingresando a Amazon ECR...
+      - eval $(aws ecr get-login --no-include-email --region us-east-1)
+      - docker version
+      
+  build:
+    commands:
+      - echo Creando imagen de Docker...
+      - docker build -t $REPO_NAME:$IMAGE_TAG -f DummyAPI/Dockerfile .;
+      - echo Etiquetando imagen...;
+      - docker tag $REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPO_NAME:$IMAGE_TAG;
+      - echo Copiando imagen de Docker a repositorio...;
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPO_NAME:$IMAGE_TAG;
