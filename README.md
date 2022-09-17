@@ -1,6 +1,6 @@
-              # DummyAPI
+# DummyAPI
 Test Docker
-#AXSXA Hola mundo
+
 ## Create Images Docker
 `docker build -t "apitest" -f DummyAPI\Dockerfile .`
 
