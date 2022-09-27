@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 
 // Require Dummy routes
 const dummyRoutes = require('./src/routes/dummy.route')
+const otherRoutes = require('./src/routes/other.route')
 
 // create express app
 const app = express();
@@ -23,6 +24,7 @@ app.use(cors())
 
 // using as middleware
 app.use('/api/dummy', dummyRoutes)
+app.use('/api/other', otherRoutes)
 
 // listen for requests
 app.listen(port, () => {
