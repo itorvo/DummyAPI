@@ -2,16 +2,13 @@
 Test Docker
 
 ## Create Images Docker
-`docker build -t "apitest" -f DummyAPI\Dockerfile .`
+`docker build --build-arg PORT=9000 -t "{AccountId}.dkr.ecr.us-east-1.amazonaws.com/ito-dev-dummy:latest" .`
 
 ## Run Container
-`docker run -it -p 8000:80 -e Nombre=RaulDocker apitest:latest`
-
-## Assign tag to image
-`docker tag apitest [NumberAccountAWS].dkr.ecr.us-east-1.amazonaws.com/testapi:latest`
+`docker run -it -p 8000:80 -e Nombre=RaulDocker {AccountId}.dkr.ecr.us-east-1.amazonaws.com/ito-dev-dummy:latest`
 
 ## Login Docker with AWS
-`Invoke-Expression (aws ecr get-login --no-include-email)`
+`aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin {AccountId}.dkr.ecr.us-east-1.amazonaws.com`
 
 ## Push images in ECR
-`docker push [NumberAccountAWS].dkr.ecr.us-east-1.amazonaws.com/testapi:latest`
+`docker push {AccountId}.dkr.ecr.us-east-1.amazonaws.com/ito-dev-dummy:latest`

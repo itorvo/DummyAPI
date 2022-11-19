@@ -1,3 +1,4 @@
+ARG PORT
 # from base image node
 FROM node:14.19.3-slim
 
@@ -14,7 +15,7 @@ RUN npm install
 COPY ./ .
 
 #expose the port
-EXPOSE 80
+EXPOSE $PORT
 
 # command to run when intantiate an image
 CMD ["npm","start"]
