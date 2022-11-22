@@ -14,6 +14,11 @@ const port = process.env.PORT || 80;
 app.use(bodyParser.urlencoded({ extended: true }))
 // parse requests of content-type - application/json
 app.use(bodyParser.json())
+
+//add X-Ray
+var AWSXRay = require('aws-xray-sdk');
+app.use(AWSXRay.express.openSegment('Dummy'));
+
 // define a root route
 app.get('/', (req, res) => {
   res.send("NodeJs + Express + MongoDb");
@@ -26,7 +31,10 @@ app.use(cors())
 app.use('/api/dummy', dummyRoutes)
 app.use('/api/other', otherRoutes)
 
+
 // listen for requests
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
+
+app.use(AWSXRay.express.closeSegment());
