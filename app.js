@@ -1,5 +1,5 @@
 const express = require('express');
-var cors = require('cors')
+const cors = require('cors')
 const bodyParser = require('body-parser');
 
 // Require Dummy routes
@@ -16,8 +16,14 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 //add X-Ray
-var AWSXRay = require('aws-xray-sdk');
+let AWSXRay = require('aws-xray-sdk');
+
+AWSXRay.config([ AWSXRay.plugins.ECSPlugin ]);
+
 app.use(AWSXRay.express.openSegment('Dummy'));
+
+// AWSXRay.setDaemonAddress('ito-dev-xray-daemon:2000');
+// AWSXRay.middleware.enableDynamicNaming('*.example.com');
 
 // define a root route
 app.get('/', (req, res) => {
