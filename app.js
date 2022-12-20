@@ -22,9 +22,6 @@ AWSXRay.config([ AWSXRay.plugins.ECSPlugin ]);
 
 app.use(AWSXRay.express.openSegment('Dummy'));
 
-// AWSXRay.setDaemonAddress('ito-dev-xray-daemon:2000');
-// AWSXRay.middleware.enableDynamicNaming('*.example.com');
-
 // define a root route
 app.get('/', (req, res) => {
   res.send("NodeJs + Express + MongoDb");

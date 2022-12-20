@@ -1,5 +1,5 @@
 'use strict';
-var os = require("os");
+const os = require("os");
 
 exports.get = function (req, res) {
     res.send({
