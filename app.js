@@ -1,10 +1,12 @@
 const express = require('express');
 const cors = require('cors')
 const bodyParser = require('body-parser');
+const AWSXRay = require('aws-xray-sdk');
 
 // Require Dummy routes
 const dummyRoutes = require('./src/routes/dummy.route')
 const otherRoutes = require('./src/routes/other.route')
+const countryRoutes = require('./src/routes/country.route')
 
 // create express app
 const app = express();
@@ -16,8 +18,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 //add X-Ray
-let AWSXRay = require('aws-xray-sdk');
-
 AWSXRay.config([ AWSXRay.plugins.ECSPlugin ]);
 
 app.use(AWSXRay.express.openSegment('Dummy'));
@@ -32,8 +32,8 @@ app.use(cors())
 
 // using as middleware
 app.use('/api/dummy', dummyRoutes)
+app.use('/api/country', countryRoutes)
 app.use('/api/other', otherRoutes)
-
 
 // listen for requests
 app.listen(port, () => {
