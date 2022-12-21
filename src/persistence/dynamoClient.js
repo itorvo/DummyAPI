@@ -2,7 +2,7 @@ let AWSXRay = require('aws-xray-sdk');
 const AWS = AWSXRay.captureAWS(require('aws-sdk'));
 
 const crypto = require("crypto");
-let dynamoDbClient = new AWS.DynamoDB.DocumentClient( { region: 'us-east-1'} );
+let dynamoDbClient = new AWS.DynamoDB.DocumentClient();
 
 exports.getAll = async function (table) {
   const segment = AWSXRay.getSegment();
@@ -26,6 +26,29 @@ exports.getAll = async function (table) {
   let items = await dynamoDbClient.scan(params).promise().then(function(data){
     console.log(data)
     return data.Items;
+  })
+  .catch(function (err) {
+    return null
+  });
+
+  subsegment.close();
+
+  return items
+}
+
+exports.delete = async function (table, key) {
+  const segment = AWSXRay.getSegment();
+  const subsegment = segment.addNewSubsegment('DeleteCountry');
+
+  const params = {
+    Key: {
+      'Code': key
+    },
+    TableName: table
+  };
+
+  let items = await dynamoDbClient.delete(params).promise().then(function(data){
+    return data;
   })
   .catch(function (err) {
     return null
