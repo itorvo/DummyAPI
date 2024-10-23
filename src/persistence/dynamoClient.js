@@ -44,7 +44,7 @@ exports.delete = async function (table, key) {
 
   const params = {
     Key: {
-      'Code': key
+      "Code": key
     },
     TableName: table
   };

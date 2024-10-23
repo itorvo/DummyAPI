@@ -29,7 +29,7 @@ exports.delete = async function (req, res) {
     try {
         const result = await dynamoClient.delete(tableName, req.params.id);
         if (result) {
-            res.status(200).json(countries);
+            res.status(200).json({ message: 'Eliminado correctamente' });
         }
         else {
             throw new Error('No ha sido posible eliminar')
