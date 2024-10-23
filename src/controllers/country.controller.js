@@ -1,5 +1,7 @@
 'use strict';
 const dynamoClient = require('../persistence/dynamoClient')
+require('dotenv').config();
+
 const tableName = process.env.TableName
 
 exports.getAll = async function (req, res) {

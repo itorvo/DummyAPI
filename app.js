@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors')
 const bodyParser = require('body-parser');
 const AWSXRay = require('aws-xray-sdk');
+require('dotenv').config();
 
 // Require Dummy routes
 const dummyRoutes = require('./src/routes/dummy.route')
@@ -24,7 +25,7 @@ app.use(AWSXRay.express.openSegment('Dummy'));
 
 // define a root route
 app.get('/', (req, res) => {
-  res.send("NodeJs + Express + MongoDb");
+  res.send("NodeJs + Express + MongoDb + AWS ECS");
 });
 
 //enable cors

@@ -1,7 +1,9 @@
 let AWSXRay = require('aws-xray-sdk');
 const AWS = AWSXRay.captureAWS(require('aws-sdk'));
-
+require('dotenv').config();
+AWS.config.update({ region: process.env.AWS_REGION });
 const crypto = require("crypto");
+
 let dynamoDbClient = new AWS.DynamoDB.DocumentClient();
 
 exports.getAll = async function (table) {
@@ -23,8 +25,8 @@ exports.getAll = async function (table) {
     TableName: table
   };
 
+
   let items = await dynamoDbClient.scan(params).promise().then(function(data){
-    console.log(data)
     return data.Items;
   })
   .catch(function (err) {
