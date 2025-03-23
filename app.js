@@ -9,6 +9,9 @@ const dummyRoutes = require('./src/routes/dummy.route')
 const otherRoutes = require('./src/routes/other.route')
 const countryRoutes = require('./src/routes/country.route')
 
+// Importa la instancia del logger
+const logger = require('./src/utils/logger');
+
 // create express app
 const app = express();
 // Setup server port
@@ -17,6 +20,19 @@ const port = process.env.PORT || 80;
 app.use(bodyParser.urlencoded({ extended: true }))
 // parse requests of content-type - application/json
 app.use(bodyParser.json())
+
+// Middleware para registrar solicitudes
+const loggerMiddleware = (req, res, next) => {
+  logger.info({
+    message: 'Solicitud recibida',
+    method: req.method,
+    url: req.url,
+    ip: req.ip,
+  });
+  next();
+};
+
+app.use(loggerMiddleware);
 
 //add X-Ray
 AWSXRay.config([ AWSXRay.plugins.ECSPlugin ]);
