@@ -178,7 +178,6 @@ Deployment steps:
 1. Build and push Docker image:
 ```bash
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com
-docker build -t testapi:test .
 docker buildx build --build-arg PORT=9000 --platform linux/amd64,linux/arm64 -t testapi:test .
 docker tag testapi:test $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/testapi:test
 docker push $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/testapi:test
